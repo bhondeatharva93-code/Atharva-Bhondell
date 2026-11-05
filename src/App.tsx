@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   Header,
 } from './components/Header';
-import { HeroCarousel } from './components/HeroCarousel';
 import { ShopByCategory } from './components/ShopByCategory';
 import { ProductCard } from './components/ProductCard';
 import { ProductDetailModal } from './components/ProductDetailModal';
@@ -267,17 +266,7 @@ export default function App() {
       />
 
       <main className="flex-1">
-        {/* 4. Large Promotional Carousel Banners */}
-        <HeroCarousel
-          onOpenPCBuilder={() => setIsPCBuilderOpen(true)}
-          onSelectCategory={(cat) => {
-            setSelectedCategory(cat);
-            const el = document.getElementById('catalog-section');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }}
-        />
-
-        {/* Festive Diwali Video Banner */}
+        {/* Festive Diwali Video Banner (Primary Hero Banner) */}
         <DiwaliBanner
           onExploreDeals={() => {
             const el = document.getElementById('catalog-section');

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Sparkles, ArrowRight, Wrench, MessageCircle, Play, Pause, Gift, Truck } from 'lucide-react';
+import { Sparkles, ArrowRight, Wrench, MessageCircle, Play, Pause, Gift, Truck, ShieldCheck } from 'lucide-react';
 
 interface DiwaliBannerProps {
   onExploreDeals: () => void;
@@ -154,6 +154,49 @@ export const DiwaliBanner: React.FC<DiwaliBannerProps> = ({
             </div>
           </div>
 
+        </div>
+
+        {/* 4 Feature Value Pillars below banner */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+          <div className="p-4 bg-[#F5F7FA] rounded-xl border border-[#E5E7EB] flex items-start gap-3">
+            <div className="w-9 h-9 rounded-lg bg-[#783D1B]/10 text-[#783D1B] flex items-center justify-center shrink-0">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-[#172B4D]">100% Genuine Hardware</h4>
+              <p className="text-[11px] text-[#64748B] mt-0.5">Direct authorized brand distribution with GST bill</p>
+            </div>
+          </div>
+
+          <div className="p-4 bg-[#F5F7FA] rounded-xl border border-[#E5E7EB] flex items-start gap-3">
+            <div className="w-9 h-9 rounded-lg bg-emerald-100/70 text-emerald-600 flex items-center justify-center shrink-0">
+              <Truck className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-[#172B4D]">Pan-India Express Safe</h4>
+              <p className="text-[11px] text-[#64748B] mt-0.5">Heavy foam crated packaging with BlueDart Air</p>
+            </div>
+          </div>
+
+          <div className="p-4 bg-[#F5F7FA] rounded-xl border border-[#E5E7EB] flex items-start gap-3">
+            <div className="w-9 h-9 rounded-lg bg-amber-100/70 text-[#FFB020] flex items-center justify-center shrink-0">
+              <Wrench className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-[#172B4D]">Zero Assembly Labor</h4>
+              <p className="text-[11px] text-[#64748B] mt-0.5">Free cable management & stress testing included</p>
+            </div>
+          </div>
+
+          <div className="p-4 bg-[#F5F7FA] rounded-xl border border-[#E5E7EB] flex items-start gap-3">
+            <div className="w-9 h-9 rounded-lg bg-indigo-100/70 text-indigo-600 flex items-center justify-center shrink-0">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-[#172B4D]">Guest Checkout Ready</h4>
+              <p className="text-[11px] text-[#64748B] mt-0.5">No login or registration needed to place orders</p>
+            </div>
+          </div>
         </div>
 
       </div>
