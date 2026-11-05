@@ -13,12 +13,14 @@ interface FooterProps {
   onOpenAdmin: () => void;
   onSelectCategory: (category: string) => void;
   onOpenPCBuilder: () => void;
+  onNavigate?: (view: 'home' | 'basic-computers' | 'gaming-computers' | 'custom-pc') => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
   onOpenAdmin,
   onSelectCategory,
   onOpenPCBuilder,
+  onNavigate,
 }) => {
   return (
     <footer className="bg-[#FFFFFF] border-t border-[#E5E7EB] text-[#172B4D] pt-12 pb-8">
@@ -61,48 +63,77 @@ export const Footer: React.FC<FooterProps> = ({
             <ul className="space-y-2 text-xs text-[#64748B]">
               <li>
                 <button
-                  onClick={() => onSelectCategory('gaming-pcs')}
-                  className="hover:text-[#783D1B] transition-colors"
+                  onClick={() => {
+                    if (onNavigate) onNavigate('basic-computers');
+                    else onSelectCategory('basic-pcs');
+                  }}
+                  className="hover:text-[#783D1B] transition-colors cursor-pointer"
+                >
+                  Basic Computers (Office & Home)
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => {
+                    if (onNavigate) onNavigate('gaming-computers');
+                    else onSelectCategory('gaming-pcs');
+                  }}
+                  className="hover:text-[#783D1B] transition-colors cursor-pointer"
                 >
                   Gaming Desktop PCs
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => onSelectCategory('graphics-cards')}
-                  className="hover:text-[#783D1B] transition-colors"
+                  onClick={() => {
+                    if (onNavigate) onNavigate('home');
+                    onSelectCategory('graphics-cards');
+                  }}
+                  className="hover:text-[#783D1B] transition-colors cursor-pointer"
                 >
                   GeForce RTX 40-Series
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => onSelectCategory('processors')}
-                  className="hover:text-[#783D1B] transition-colors"
+                  onClick={() => {
+                    if (onNavigate) onNavigate('home');
+                    onSelectCategory('processors');
+                  }}
+                  className="hover:text-[#783D1B] transition-colors cursor-pointer"
                 >
                   Intel & AMD Processors
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => onSelectCategory('motherboards')}
-                  className="hover:text-[#783D1B] transition-colors"
+                  onClick={() => {
+                    if (onNavigate) onNavigate('home');
+                    onSelectCategory('motherboards');
+                  }}
+                  className="hover:text-[#783D1B] transition-colors cursor-pointer"
                 >
                   Motherboards (Z790 / B650)
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => onSelectCategory('ram-memory')}
-                  className="hover:text-[#783D1B] transition-colors"
+                  onClick={() => {
+                    if (onNavigate) onNavigate('home');
+                    onSelectCategory('ram-memory');
+                  }}
+                  className="hover:text-[#783D1B] transition-colors cursor-pointer"
                 >
                   DDR5 RAM & Gen4 SSDs
                 </button>
               </li>
               <li>
                 <button
-                  onClick={onOpenPCBuilder}
-                  className="text-[#783D1B] font-semibold hover:underline"
+                  onClick={() => {
+                    if (onNavigate) onNavigate('custom-pc');
+                    else onOpenPCBuilder();
+                  }}
+                  className="text-[#783D1B] font-semibold hover:underline cursor-pointer"
                 >
                   Custom PC Builder Tool
                 </button>

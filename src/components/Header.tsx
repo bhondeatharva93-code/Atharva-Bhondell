@@ -26,6 +26,7 @@ interface HeaderProps {
   onOpenPCBuilder: () => void;
   products: Product[];
   onSelectProduct: (product: Product) => void;
+  onNavigate?: (view: 'home' | 'basic-computers' | 'gaming-computers' | 'custom-pc') => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -40,6 +41,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenPCBuilder,
   products,
   onSelectProduct,
+  onNavigate,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
@@ -97,7 +99,11 @@ export const Header: React.FC<HeaderProps> = ({
               href="/"
               onClick={(e) => {
                 e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                if (onNavigate) {
+                  onNavigate('home');
+                } else {
+                  window.scrollTo({ top: 0, behavior: 'instant' });
+                }
               }}
               className="flex items-center shrink-0 group py-1"
               aria-label="Computer Galaxy Home"
@@ -196,8 +202,14 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="flex items-center gap-2 sm:gap-3">
               {/* PC Builder Button */}
               <button
-                onClick={onOpenPCBuilder}
-                className="hidden xl:flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-[#783D1B] bg-[#783D1B]/10 hover:bg-[#783D1B]/15 rounded-lg border border-[#783D1B]/20 transition-all"
+                onClick={() => {
+                  if (onNavigate) {
+                    onNavigate('custom-pc');
+                  } else {
+                    onOpenPCBuilder();
+                  }
+                }}
+                className="hidden xl:flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-[#783D1B] bg-[#783D1B]/10 hover:bg-[#783D1B]/15 rounded-lg border border-[#783D1B]/20 transition-all cursor-pointer"
                 aria-label="Launch Custom PC Builder"
               >
                 <Cpu className="w-3.5 h-3.5" />
@@ -281,53 +293,89 @@ export const Header: React.FC<HeaderProps> = ({
             <nav className="flex items-center justify-between text-xs font-medium text-[#172B4D] py-2.5">
               <div className="flex items-center gap-6">
                 <button
-                  onClick={() => onSelectCategory('all')}
-                  className="hover:text-[#783D1B] transition-colors font-semibold"
+                  onClick={() => {
+                    if (onNavigate) onNavigate('home');
+                    onSelectCategory('all');
+                  }}
+                  className="hover:text-[#783D1B] transition-colors font-semibold cursor-pointer"
                 >
                   All Products
                 </button>
                 <button
-                  onClick={() => onSelectCategory('gaming-pcs')}
-                  className="hover:text-[#783D1B] transition-colors"
+                  onClick={() => {
+                    if (onNavigate) onNavigate('basic-computers');
+                    else onSelectCategory('basic-pcs');
+                  }}
+                  className="hover:text-[#783D1B] transition-colors cursor-pointer"
+                >
+                  Basic Computers
+                </button>
+                <button
+                  onClick={() => {
+                    if (onNavigate) onNavigate('gaming-computers');
+                    else onSelectCategory('gaming-pcs');
+                  }}
+                  className="hover:text-[#783D1B] transition-colors cursor-pointer"
                 >
                   Gaming Desktop PCs
                 </button>
                 <button
-                  onClick={() => onSelectCategory('graphics-cards')}
-                  className="hover:text-[#783D1B] transition-colors"
+                  onClick={() => {
+                    if (onNavigate) onNavigate('home');
+                    onSelectCategory('graphics-cards');
+                  }}
+                  className="hover:text-[#783D1B] transition-colors cursor-pointer"
                 >
                   Graphics Cards
                 </button>
                 <button
-                  onClick={() => onSelectCategory('processors')}
-                  className="hover:text-[#783D1B] transition-colors"
+                  onClick={() => {
+                    if (onNavigate) onNavigate('home');
+                    onSelectCategory('processors');
+                  }}
+                  className="hover:text-[#783D1B] transition-colors cursor-pointer"
                 >
                   Processors (CPUs)
                 </button>
                 <button
-                  onClick={() => onSelectCategory('motherboards')}
-                  className="hover:text-[#783D1B] transition-colors"
+                  onClick={() => {
+                    if (onNavigate) onNavigate('home');
+                    onSelectCategory('motherboards');
+                  }}
+                  className="hover:text-[#783D1B] transition-colors cursor-pointer"
                 >
                   Motherboards
                 </button>
                 <button
-                  onClick={() => onSelectCategory('ram-memory')}
-                  className="hover:text-[#783D1B] transition-colors"
+                  onClick={() => {
+                    if (onNavigate) onNavigate('home');
+                    onSelectCategory('ram-memory');
+                  }}
+                  className="hover:text-[#783D1B] transition-colors cursor-pointer"
                 >
                   RAM & Storage
                 </button>
                 <button
-                  onClick={() => onSelectCategory('monitors')}
-                  className="hover:text-[#783D1B] transition-colors"
+                  onClick={() => {
+                    if (onNavigate) onNavigate('home');
+                    onSelectCategory('monitors');
+                  }}
+                  className="hover:text-[#783D1B] transition-colors cursor-pointer"
                 >
                   Monitors
                 </button>
-                <a
-                  href="#custom-builder"
-                  className="hover:text-[#783D1B] transition-colors font-semibold text-[#783D1B]"
+                <button
+                  onClick={() => {
+                    if (onNavigate) {
+                      onNavigate('custom-pc');
+                    } else {
+                      onOpenPCBuilder();
+                    }
+                  }}
+                  className="hover:text-[#783D1B] transition-colors font-semibold text-[#783D1B] cursor-pointer"
                 >
                   Custom PC Builder
-                </a>
+                </button>
               </div>
 
               <div className="flex items-center gap-4 text-[#64748B]">
@@ -353,6 +401,7 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="flex flex-col space-y-2 text-sm font-medium text-[#172B4D]">
               <button
                 onClick={() => {
+                  if (onNavigate) onNavigate('home');
                   onSelectCategory('all');
                   setMobileMenuOpen(false);
                 }}
@@ -362,7 +411,18 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
               <button
                 onClick={() => {
-                  onSelectCategory('gaming-pcs');
+                  if (onNavigate) onNavigate('basic-computers');
+                  else onSelectCategory('basic-pcs');
+                  setMobileMenuOpen(false);
+                }}
+                className="text-left py-1.5 hover:text-[#783D1B]"
+              >
+                Basic Computers
+              </button>
+              <button
+                onClick={() => {
+                  if (onNavigate) onNavigate('gaming-computers');
+                  else onSelectCategory('gaming-pcs');
                   setMobileMenuOpen(false);
                 }}
                 className="text-left py-1.5 hover:text-[#783D1B]"
@@ -371,6 +431,7 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
               <button
                 onClick={() => {
+                  if (onNavigate) onNavigate('home');
                   onSelectCategory('graphics-cards');
                   setMobileMenuOpen(false);
                 }}
@@ -380,6 +441,7 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
               <button
                 onClick={() => {
+                  if (onNavigate) onNavigate('home');
                   onSelectCategory('processors');
                   setMobileMenuOpen(false);
                 }}
@@ -389,7 +451,11 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
               <button
                 onClick={() => {
-                  onOpenPCBuilder();
+                  if (onNavigate) {
+                    onNavigate('custom-pc');
+                  } else {
+                    onOpenPCBuilder();
+                  }
                   setMobileMenuOpen(false);
                 }}
                 className="text-left py-1.5 text-[#783D1B] font-semibold flex items-center justify-between"

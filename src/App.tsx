@@ -11,8 +11,14 @@ import { GuestCheckoutModal } from './components/GuestCheckoutModal';
 import { WishlistModal } from './components/WishlistModal';
 import { AdminModal } from './components/AdminModal';
 import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
+import { TopPCSelectorSection } from './components/TopPCSelectorSection';
 import { DiwaliBanner } from './components/DiwaliBanner';
+import { BasicComputersPage } from './components/BasicComputersPage';
+import { GamingComputersPage } from './components/GamingComputersPage';
+import { CustomPCPage } from './components/CustomPCPage';
 import { Footer } from './components/Footer';
+
+export type AppView = 'home' | 'basic-computers' | 'gaming-computers' | 'custom-pc';
 
 import { Product, CartItem, GuestOrder } from './types';
 import { PRODUCTS_CATALOG, POPULAR_BRANDS, GOOGLE_REVIEWS } from './data/products';
@@ -110,8 +116,14 @@ export default function App() {
   });
 
   // Navigation & Filter State
+  const [currentView, setCurrentView] = useState<AppView>('home');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
+
+  const navigateTo = (view: AppView) => {
+    setCurrentView(view);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
 
   // Modals
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -254,26 +266,83 @@ export default function App() {
         onOpenCart={() => setIsCartOpen(true)}
         onOpenWishlist={() => setIsWishlistOpen(true)}
         searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
+        onSearchChange={(q) => {
+          setSearchQuery(q);
+          if (q.trim() && currentView !== 'home') {
+            setCurrentView('home');
+          }
+        }}
         onSelectCategory={(cat) => {
           setSelectedCategory(cat);
-          const el = document.getElementById('catalog-section');
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
+          if (cat === 'basic-pcs') {
+            navigateTo('basic-computers');
+          } else if (cat === 'gaming-pcs') {
+            navigateTo('gaming-computers');
+          } else {
+            setCurrentView('home');
+            const el = document.getElementById('catalog-section');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }
         }}
-        onOpenPCBuilder={() => setIsPCBuilderOpen(true)}
+        onOpenPCBuilder={() => navigateTo('custom-pc')}
+        onNavigate={navigateTo}
         products={products}
         onSelectProduct={(p) => setSelectedProduct(p)}
       />
 
       <main className="flex-1">
-        {/* Festive Diwali Video Banner (Primary Hero Banner) */}
-        <DiwaliBanner
-          onExploreDeals={() => {
-            const el = document.getElementById('catalog-section');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }}
-          onOpenPCBuilder={() => setIsPCBuilderOpen(true)}
-        />
+        {/* Dedicated Page View: Basic Computers */}
+        {currentView === 'basic-computers' && (
+          <BasicComputersPage
+            products={products}
+            onBackToHome={() => navigateTo('home')}
+            onAddToCart={(p) => handleAddToCart(p, 1)}
+            onBuyNow={handleBuyNow}
+            onToggleWishlist={handleToggleWishlist}
+            onSelectProduct={(p) => setSelectedProduct(p)}
+            wishlist={wishlist}
+          />
+        )}
+
+        {/* Dedicated Page View: Gaming Computers */}
+        {currentView === 'gaming-computers' && (
+          <GamingComputersPage
+            products={products}
+            onBackToHome={() => navigateTo('home')}
+            onAddToCart={(p) => handleAddToCart(p, 1)}
+            onBuyNow={handleBuyNow}
+            onToggleWishlist={handleToggleWishlist}
+            onSelectProduct={(p) => setSelectedProduct(p)}
+            wishlist={wishlist}
+          />
+        )}
+
+        {/* Dedicated Page View: Custom PC Configurator */}
+        {currentView === 'custom-pc' && (
+          <CustomPCPage
+            onBackToHome={() => navigateTo('home')}
+            onAddBuildToCart={(customProduct) => {
+              handleAddToCart(customProduct, 1);
+            }}
+          />
+        )}
+
+        {/* Home Page View */}
+        {currentView === 'home' && (
+          <>
+            {/* Festive Diwali Video Banner (Primary Hero Banner) */}
+            <DiwaliBanner
+              onExploreDeals={() => {
+                const el = document.getElementById('catalog-section');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+              onOpenPCBuilder={() => navigateTo('custom-pc')}
+            />
+
+            {/* Top PC Selector Section: Basic Computer, Gaming Computer, Custom PC */}
+            <TopPCSelectorSection
+              onNavigate={navigateTo}
+            />
 
         {/* 4. Shop by Category Section */}
         <ShopByCategory
@@ -656,6 +725,8 @@ export default function App() {
             </div>
           </div>
         </section>
+        </>
+      )}
 
       </main>
 
@@ -664,10 +735,18 @@ export default function App() {
         onOpenAdmin={() => setIsAdminOpen(true)}
         onSelectCategory={(cat) => {
           setSelectedCategory(cat);
-          const el = document.getElementById('catalog-section');
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
+          if (cat === 'basic-pcs') {
+            navigateTo('basic-computers');
+          } else if (cat === 'gaming-pcs') {
+            navigateTo('gaming-computers');
+          } else {
+            setCurrentView('home');
+            const el = document.getElementById('catalog-section');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }
         }}
-        onOpenPCBuilder={() => setIsPCBuilderOpen(true)}
+        onOpenPCBuilder={() => navigateTo('custom-pc')}
+        onNavigate={navigateTo}
       />
 
       {/* Floating WhatsApp Quick Action Button */}

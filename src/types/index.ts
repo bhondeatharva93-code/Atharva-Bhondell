@@ -5,6 +5,7 @@ export type ProductCategory =
   | 'ram-memory'
   | 'storage-ssd'
   | 'gaming-pcs'
+  | 'basic-pcs'
   | 'monitors'
   | 'cabinets'
   | 'power-cooling'
